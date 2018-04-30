@@ -10,10 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180429203645) do
+ActiveRecord::Schema.define(version: 20180430021952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "carted_products", force: :cascade do |t|
+    t.integer "parent_user_id"
+    t.string "status"
+    t.integer "order_id"
+    t.integer "product_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "child_user_id"
+  end
+
+  create_table "child_users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.integer "parent_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.integer "parent_user_id"
+    t.integer "child_user_id"
+    t.decimal "subtotal"
+    t.decimal "shipping"
+    t.decimal "tax"
+    t.decimal "total"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parent_users", force: :cascade do |t|
+    t.string "username"
+    t.string "email"
+    t.string "password_digest"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "products", force: :cascade do |t|
     t.integer "sku"
