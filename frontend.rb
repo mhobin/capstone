@@ -71,25 +71,26 @@ jwt = response.body["jwt"]
 p jwt
 Unirest.default_header("Authorization", "Bearer #{jwt}")
 
- response = Unirest.post("http://localhost:3000/parent_user_token",
-parameters: {
-    auth: {
-      email: "mom@mom.com",
-      password: "password"
-    }
-  }
-  )
+# parent login
+#  response = Unirest.post("http://localhost:3000/parent_user_token",
+# parameters: {
+#     auth: {
+#       email: "mom@mom.com",
+#       password: "password"
+#     }
+#   }
+#   )
 
-jwt = response.body["jwt"]
-p jwt
-Unirest.default_header("Authorization", "Bearer #{jwt}")
+# jwt = response.body["jwt"]
+# p jwt
+# Unirest.default_header("Authorization", "Bearer #{jwt}")
 
 
 #child create order after login
 
-# response = Unirest.post("localhost:3000/v1/orders")
+response = Unirest.post("localhost:3000/v1/orders")
 
-# p response.body
+p response.body
 
 #show cart after child_user login
 # response = Unirest.get("http://localhost:3000/v1/cartedproducts")

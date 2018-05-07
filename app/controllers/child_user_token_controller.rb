@@ -1,1 +1,2 @@
-git 
+class ChildUserTokenController < Knock::AuthTokenController
+end
