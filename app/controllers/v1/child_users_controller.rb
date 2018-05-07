@@ -9,7 +9,7 @@ class V1::ChildUsersController < ApplicationController
       )
 
     if child_user.save
-      render json: {message: 'child User created successfully'}, status: :created
+      render json: {message: 'child user created successfully'}, status: :created
     else
       render json: {errors: child_user.errors.full_messages}, status: :bad_request
     end
