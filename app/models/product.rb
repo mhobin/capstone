@@ -5,6 +5,7 @@ class Product < ApplicationRecord
   def as_json
     {
       name: name,
+      id: id,
       image: image,
       salePrice: salePrice
     }

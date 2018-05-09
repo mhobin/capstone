@@ -15,6 +15,43 @@ var HomePage = {
   computed: {}
 };
 
+var ProductsShowPage = {
+  template: "#products-show-page",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!",
+      product: {}
+    };
+  },
+  created: function() {
+  
+    axios.get("/v1/products/" + this.$route.params.id).then(
+      function(response){
+      this.product = response.data;
+    }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
+
+
+// var CartedProductsPage = {
+//   template: "#carted-products-page",
+//   data: function() {
+//     return {
+//       message: "Welcome to Vue.js!",
+//       products: []
+//     };
+//   },
+//   created: function() {
+//     axios.get("/v1/carted_products" + this.$route.params.id).then(function(response){
+//       this.products = response.data;
+//     }.bind(this));
+//   },
+//   methods: {},
+//   computed: {}
+// };
+
 var ParentSignupPage = {
   template: "#parent-signup-page",
   data: function() {
@@ -81,44 +118,48 @@ var ChildSignupPage = {
   }
 };
 
-// var ChildSignupPage = {
-//   template: "#child-signup-page",
-//   data: function() {
-//     return {
-//       name: "",
-//       email: "",
-//       password: "",
-//       passwordConfirmation: "",
-//       errors: []
-//     };
-//   },
-//   methods: {
-//     submit: function() {
-//       var params = {
-//         name: this.name,
-//         email: this.email,
-//         password: this.password,
-//         password_confirmation: this.passwordConfirmation
-//       };
-//       axios
-//         .post("/v1/child_users", params)
-//         .then(function(response) {
-//           router.push("/childlogin");
-//         })
-//         .catch(
-//           function(error) {
-//             this.errors = error.response.data.errors;
-//           }.bind(this)
-//         );
-//     }
-//   }
-// };
+var ChildLoginPage = {
+  template: "#child-login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/child_user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/cartedproducts");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
+
 
 var router = new VueRouter({
   routes: [
   { path: "/", component: HomePage },
   {path: "/childsignup", component: ChildSignupPage},
-  {path: "/parentsignup", component: ParentSignupPage}
+  {path: "/parentsignup", component: ParentSignupPage},
+  {path: "/childlogin", component: ChildLoginPage},
+  {path: "/products/:id", component: ProductsShowPage}
+  // {path: "/cartedproducts", component: CartedProductsPage}
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
@@ -127,5 +168,11 @@ var router = new VueRouter({
 
 var app = new Vue({
   el: "#vue-app",
-  router: router
+  router: router,
+   created: function() {
+    var jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      axios.defaults.headers.common["Authorization"] = jwt;
+    }
+  }
 });
