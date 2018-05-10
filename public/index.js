@@ -35,22 +35,22 @@ var ProductsShowPage = {
 };
 
 
-// var CartedProductsPage = {
-//   template: "#carted-products-page",
-//   data: function() {
-//     return {
-//       message: "Welcome to Vue.js!",
-//       products: []
-//     };
-//   },
-//   created: function() {
-//     axios.get("/v1/carted_products" + this.$route.params.id).then(function(response){
-//       this.products = response.data;
-//     }.bind(this));
-//   },
-//   methods: {},
-//   computed: {}
-// };
+var CartedProductsPage = {
+  template: "#carted-products-page",
+  data: function() {
+    return {
+      message: "Welcome to Vue.js!",
+      carted_product: {}
+    };
+  },
+  created: function() {
+    axios.get("/v1/carted_products").then(function(response){
+      this.carted_product = response.data;
+    }.bind(this));
+  },
+  methods: {},
+  computed: {}
+};
 
 var ParentSignupPage = {
   template: "#parent-signup-page",
@@ -158,8 +158,8 @@ var router = new VueRouter({
   {path: "/childsignup", component: ChildSignupPage},
   {path: "/parentsignup", component: ParentSignupPage},
   {path: "/childlogin", component: ChildLoginPage},
-  {path: "/products/:id", component: ProductsShowPage}
-  // {path: "/cartedproducts", component: CartedProductsPage}
+  {path: "/products/:id", component: ProductsShowPage},
+  {path: "/cartedproducts", component: CartedProductsPage}
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
