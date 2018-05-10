@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     post '/child_users' => 'child_users#create'
     post '/carted_products' => 'carted_products#create'
     get '/carted_products' => 'carted_products#index'
+    get '/carted_products/:id' => 'carted_products#index'
     post '/orders' => 'orders#create'
   end
 end

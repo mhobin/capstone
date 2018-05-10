@@ -114,14 +114,20 @@
 </template>
 
 <template id="carted-products-page">
-  <div class="vue-component">
+  <div>
 
     <h1>{{ message }}</h1>
-    {{carted_product}}
-   <!--  <div v-for="product in products">
-    <p>name: {{product.name}}</p>
-    <p>price: {{product.salePrice}}</p>
-    </div> -->
+<!--     <p>{{carted_products}}</p>
+    <p>{{carted_products[0].product_id}}</p>
+    <p>{{carted_products[0]}}</p>
+    <p>{{carted_products[0].status}}</p> -->
+
+    <div v-for="carted_product in carted_products">
+      <!-- <p>{{carted_products}}</p> -->
+      <p>{{carted_products[0].status}}</p>
+      <p>{{carted_products[0].product_id}}</p>
+    </div>
+
   </div>
 </template>
 
@@ -130,9 +136,11 @@
    <!--  {{message}}
     {{product}} -->
     <h1>{{ message }}</h1>
+    {{product}}
     <p>name: {{product.name}}</p>
     <a v-bind:href="/#/" class="btn btn-primary">Button</a>
 
     <!-- <p>price: {{product.salePrice}}</p> -->
   </div>
 </template>
+

@@ -40,12 +40,12 @@ var CartedProductsPage = {
   data: function() {
     return {
       message: "Welcome to Vue.js!",
-      carted_product: {}
+      carted_products: {}
     };
   },
   created: function() {
     axios.get("/v1/carted_products").then(function(response){
-      this.carted_product = response.data;
+      this.carted_products = response.data;
     }.bind(this));
   },
   methods: {},
