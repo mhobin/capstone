@@ -20,7 +20,9 @@ var ProductsShowPage = {
   data: function() {
     return {
       message: "Welcome to Vue.js!",
-      product: {}
+      product: {},
+      addToCart: {quantity: ""},
+      errors: []
     };
   },
   created: function() {
@@ -30,7 +32,22 @@ var ProductsShowPage = {
       this.product = response.data;
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    addCart: function() {
+      var params = {
+        // inputProduct: this.addToCart.product_id
+        inputQuantity: this.addToCart.quantity
+      };
+      axios.post("/v1/carted_products", params).then(function(response){
+        console.log(this.addToCart)
+        this.addToCart = {quantity: ""};
+        this.errors = [];
+      }.bind(this)).catch(function(error){
+        console.log(error.response.data.errors);
+        this.errors = error.response.data.errors;
+      }.bind(this));
+    }
+  },
   computed: {}
 };
 
@@ -39,7 +56,7 @@ var CartedProductsPage = {
   template: "#carted-products-page",
   data: function() {
     return {
-      message: "Welcome to Vue.js!",
+      message: "Cart",
       carted_products: {}
     };
   },

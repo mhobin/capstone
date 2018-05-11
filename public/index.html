@@ -117,15 +117,10 @@
   <div>
 
     <h1>{{ message }}</h1>
-<!--     <p>{{carted_products}}</p>
-    <p>{{carted_products[0].product_id}}</p>
-    <p>{{carted_products[0]}}</p>
-    <p>{{carted_products[0].status}}</p> -->
-
     <div v-for="carted_product in carted_products">
       <!-- <p>{{carted_products}}</p> -->
-      <p>{{carted_products[0].status}}</p>
-      <p>{{carted_products[0].product_id}}</p>
+      <p>{{carted_product.status}}</p>
+      <p>{{carted_product.product_id}}</p>
     </div>
 
   </div>
@@ -139,6 +134,10 @@
     {{product}}
     <p>name: {{product.name}}</p>
     <a v-bind:href="/#/" class="btn btn-primary">Button</a>
+
+     <!-- <p>product_id<input type="text" v-model="addToCart.product_id"></p> -->
+    <p>quantity<input type="number" v-model="addToCart.quantity"></p>
+    <button v-on:click="addCart()">Add</button>
 
     <!-- <p>price: {{product.salePrice}}</p> -->
   </div>
