@@ -2,9 +2,9 @@ class V1::CartedProductsController < ApplicationController
   def create
     if current_child_user
       cp = CartedProduct.new(
-      product_id: current_product.id,
+      product_id: params[:inputProductId],
       quantity: params[:inputQuantity],
-      parent_user_id: current_parent_user.id,
+      parent_user_id: current_child_user.parent_user_id,
       child_user_id: current_child_user.id,
       status: "carted"
       )

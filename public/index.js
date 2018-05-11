@@ -34,8 +34,9 @@ var ProductsShowPage = {
   },
   methods: {
     addCart: function() {
+      console.log(this.$route.params.id)
       var params = {
-        // inputProduct: this.addToCart.product_id
+        inputProductId: this.$route.params.id,
         inputQuantity: this.addToCart.quantity
       };
       axios.post("/v1/carted_products", params).then(function(response){
