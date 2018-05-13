@@ -35,7 +35,7 @@ class V1::CartedProductsController < ApplicationController
 
   def index
     # render json: {message: "test"}
-    cp = current_child_user.carted_products
+    cp = current_child_user.carted_products.where(status: "carted")
     render json: cp.as_json
   end
 end
