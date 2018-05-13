@@ -4,14 +4,14 @@ require 'unirest'
 # response = Unirest.get("localhost:3000/v1/products")
 
 # create parent user
-# response = Unirest.post("http://localhost:3000/v1/parent_users", 
-#   parameters:{
-#     username: "mom",
-#     email: "mom@mom.com",
-#     password: "password",
-#     password_confirmation: "password"
-#   }
-#   )
+response = Unirest.post("http://localhost:3000/v1/parent_users", 
+  parameters:{
+    username: "mom",
+    email: "margarethobin@aol.com",
+    password: "password",
+    password_confirmation: "password"
+  }
+  )
 
 #create child user
 
@@ -58,18 +58,18 @@ require 'unirest'
 # p response.body
 
 # child login
- response = Unirest.post("http://localhost:3000/child_user_token",
-parameters: {
-    auth: {
-      email: "maggie@child.com",
-      password: "password"
-    }
-  }
-  )
+#  response = Unirest.post("http://localhost:3000/child_user_token",
+# parameters: {
+#     auth: {
+#       email: "maggie@child.com",
+#       password: "password"
+#     }
+#   }
+#   )
 
-jwt = response.body["jwt"]
-p jwt
-Unirest.default_header("Authorization", "Bearer #{jwt}")
+# jwt = response.body["jwt"]
+# p jwt
+# Unirest.default_header("Authorization", "Bearer #{jwt}")
 
 # parent login
 #  response = Unirest.post("http://localhost:3000/parent_user_token",
@@ -98,10 +98,10 @@ Unirest.default_header("Authorization", "Bearer #{jwt}")
 # puts response.body
 
 
-# show carted products after child_user login
-response = Unirest.get("http://localhost:3000/v1/carted_products")
+# # show carted products after child_user login
+# response = Unirest.get("http://localhost:3000/v1/carted_products")
 
-puts response.body
+# puts response.body
 
 # #create cp after child login
 # response = Unirest.post("http://localhost:3000/v1/carted_products", parameters:{

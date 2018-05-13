@@ -19,6 +19,7 @@ class V1::OrdersController < ApplicationController
       )
     order.save
     carted_products.update_all(status: "pending", order_id: order.id)
+    ParentNotifierMailer.send_signup_email(current_parent_user).deliver_now
   end
 
 end

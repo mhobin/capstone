@@ -4,7 +4,7 @@ class V1::ChildUsersController < ApplicationController
       username: params[:username],
       password: params[:password],
       password_confirmation: params[:password_confirmation],
-      # parent_user_id: params[:parent_user_id],
+      parent_user_id: params[:parent_user_id],
       email: params[:email]
       )
 

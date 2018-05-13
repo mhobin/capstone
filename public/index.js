@@ -35,6 +35,7 @@ var ProductsShowPage = {
   methods: {
     addCart: function() {
       console.log(this.$route.params.id)
+      // console.log(this.$route.params.current_child_user_id)
       var params = {
         inputProductId: this.$route.params.id,
         inputQuantity: this.addToCart.quantity
@@ -52,7 +53,6 @@ var ProductsShowPage = {
   computed: {}
 };
 
-
 var CartedProductsPage = {
   template: "#carted-products-page",
   data: function() {
@@ -66,9 +66,37 @@ var CartedProductsPage = {
       this.carted_products = response.data;
     }.bind(this));
   },
-  methods: {},
+  methods: {
+    submit: function() {
+    axios.post("/v1/orders").then(function(response){
+      this.carted_products = response.data;
+    }.bind(this));
+  }},
   computed: {}
 };
+
+var RequestsPage = {
+  template: "#requests-page",
+  data: function() {
+    return {
+      message: "Request",
+      carted_products: {}
+    };
+  },
+  created: function() {
+    axios.get("/v1/requests").then(function(response){
+      this.carted_products = response.data;
+    }.bind(this));
+  },
+  methods: {
+    submit: function() {
+    axios.post("/v1/orders").then(function(response){
+      this.carted_products = response.data;
+    }.bind(this));
+  }},
+  computed: {}
+};
+
 
 var ParentSignupPage = {
   template: "#parent-signup-page",
@@ -111,6 +139,7 @@ var ChildSignupPage = {
       email: "",
       password: "",
       passwordConfirmation: "",
+      parent_user_id: "",
       errors: []
     };
   },
@@ -119,13 +148,14 @@ var ChildSignupPage = {
       var params = {
         name: this.name,
         email: this.email,
+        parent_user_id: this.parent_user_id,
         password: this.password,
         password_confirmation: this.passwordConfirmation
       };
       axios
         .post("/v1/child_users", params)
         .then(function(response) {
-          router.push("/childlogin");
+          router.push("/");
         })
         .catch(
           function(error) {
@@ -156,7 +186,7 @@ var ChildLoginPage = {
           axios.defaults.headers.common["Authorization"] =
             "Bearer " + response.data.jwt;
           localStorage.setItem("jwt", response.data.jwt);
-          router.push("/cartedproducts");
+          router.push("/");
         })
         .catch(
           function(error) {
@@ -169,6 +199,38 @@ var ChildLoginPage = {
   }
 };
 
+var ParentLoginPage = {
+  template: "#parent-login-page",
+  data: function() {
+    return {
+      email: "",
+      password: "",
+      errors: []
+    };
+  },
+  methods: {
+    submit: function() {
+      var params = {
+        auth: { email: this.email, password: this.password }
+      };
+      axios
+        .post("/parent_user_token", params)
+        .then(function(response) {
+          axios.defaults.headers.common["Authorization"] =
+            "Bearer " + response.data.jwt;
+          localStorage.setItem("jwt", response.data.jwt);
+          router.push("/requests");
+        })
+        .catch(
+          function(error) {
+            this.errors = ["Invalid email or password."];
+            this.email = "";
+            this.password = "";
+          }.bind(this)
+        );
+    }
+  }
+};
 
 var router = new VueRouter({
   routes: [
@@ -176,8 +238,10 @@ var router = new VueRouter({
   {path: "/childsignup", component: ChildSignupPage},
   {path: "/parentsignup", component: ParentSignupPage},
   {path: "/childlogin", component: ChildLoginPage},
+  {path: "/parentlogin", component: ParentLoginPage},
   {path: "/products/:id", component: ProductsShowPage},
-  {path: "/cartedproducts", component: CartedProductsPage}
+  {path: "/cartedproducts", component: CartedProductsPage},
+  {path: "/requests", component: RequestsPage}
   ],
   scrollBehavior: function(to, from, savedPosition) {
     return { x: 0, y: 0 };
